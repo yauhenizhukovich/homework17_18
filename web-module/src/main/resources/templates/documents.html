@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Documents</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet">
+</head>
+<body>
+<table th:if="${not #lists.isEmpty(documents)}">
+    <thead>
+    <tr>
+        <td>Unique number</td>
+        <td>Description</td>
+    </tr>
+    </thead>
+    <tbody th:each="document : ${documents}">
+    <tr th:object="${document}">
+        <td th:text="*{uniqueNumber}">
+            Unique number not defined
+        </td>
+        <td th:text="*{description}">
+            Description not defined
+        </td>
+        <td>
+            <a th:href="@{/documents/{id}(id=*{id})}">Show document</a>
+        </td>
+        <td>
+            <a th:href="@{/documents/{id}/delete(id=*{id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div th:unless="${not #lists.isEmpty(documents)}">
+    There are no documents
+</div>
+<a href="#" th:href="@{/documents/add}">Add</a>
+</body>
+</html>
