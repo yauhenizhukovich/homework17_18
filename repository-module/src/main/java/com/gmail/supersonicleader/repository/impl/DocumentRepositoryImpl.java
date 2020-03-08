@@ -40,11 +40,13 @@ public class DocumentRepositoryImpl extends GeneralRepositoryImpl<Document> impl
                 "INSERT INTO document (unique_number, description) VALUES (?,?)",
                 Statement.RETURN_GENERATED_KEYS
         )) {
-            statement.setString(1, String.valueOf(document.getUniqueNumber()));
+            UUID uniqueNumberUUID = document.getUniqueNumber();
+            String uniqueNumber = String.valueOf(uniqueNumberUUID);
+            statement.setString(1, uniqueNumber);
             statement.setString(2, document.getDescription());
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-                throw new SQLException("Creating item failed, no rows affected.");
+                throw new SQLException("Creating document failed, no rows affected.");
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -52,7 +54,7 @@ public class DocumentRepositoryImpl extends GeneralRepositoryImpl<Document> impl
                     document.setId(id);
                     return document;
                 } else {
-                    throw new SQLException("Creating item failed, no ID obtained.");
+                    throw new SQLException("Creating document failed, no ID obtained.");
                 }
             }
         }

@@ -38,8 +38,8 @@ public class DocumentServiceImpl implements DocumentService {
             connection.setAutoCommit(false);
             try {
                 List<Document> documents = documentRepository.findAll(connection);
-                List<DocumentDTO> documentsDTO = documents.stream().
-                        map(this::convertDatabaseObjectToDTO)
+                List<DocumentDTO> documentsDTO = documents.stream()
+                        .map(this::convertDatabaseObjectToDTO)
                         .collect(Collectors.toList());
                 connection.commit();
                 return documentsDTO;
